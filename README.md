@@ -1,70 +1,54 @@
-# Getting Started with Create React App
+# Pokédex
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+¡Bienvenido a la Pokédex! Esta aplicación te permite explorar y gestionar personajes de Pokémon utilizando la PokeAPI. Puedes buscar, agregar a favoritos y eliminar personajes de tu lista.
 
-## Available Scripts
+## Descripción
 
-In the project directory, you can run:
+La Pokédex es una aplicación desarrollada con React que se conecta a la PokeAPI para mostrar información sobre diferentes Pokémon. Ofrece una interfaz responsiva y dinámica que permite a los usuarios buscar Pokémon, ver detalles, agregar personajes a favoritos y gestionar su lista de favoritos de manera eficiente.
 
-### `npm start`
+## Características
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+- **Desarrollo responsivo**: La aplicación se adapta a diferentes tamaños de pantalla.
+- **Barra dinámica de búsqueda**: Busca Pokémon por nombre o tipo.
+- **Aplicar filtros de búsqueda**: Filtra los resultados según diferentes criterios.
+- **Detalle de personaje**: Visualiza información detallada de cada Pokémon.
+- **Agregar a favoritos**: Permite a los usuarios agregar Pokémon a su lista de favoritos.
+- **Consulta de personajes favoritos offline**: Los personajes favoritos se almacenan localmente en el navegador.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Instalación
 
-### `npm test`
+Para ejecutar esta aplicación en tu máquina local, sigue estos pasos:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+1. **Clona el repositorio**:
+   ```bash
+   git clone https://github.com/tuusuario/pokedex.git
 
-### `npm run build`
+2. **Navega al directorio del proyecto**:
+    cd pokedex
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+3. **Instala las dependencias:**
+    npm install
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+4. **npm install**
+    npm start
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+**La aplicación debería abrirse en tu navegador en http://localhost:3000.**
 
-### `npm run eject`
+## Uso
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+1. **Buscar Pokémon:** Usa la barra de búsqueda para encontrar Pokémon por nombre o tipo.
+2. **Agregar a favoritos:** Haz clic en el botón "Agregar a favoritos" en la tarjeta del Pokémon.
+3. **Ver favoritos:** Accede a la lista de Pokémon favoritos desde el menú.
+4. **Eliminar de favoritos:** Haz clic en el botón "Eliminar de favoritos" para quitar un Pokémon de tu lista.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## API Utilizada
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+La aplicación utiliza la [PokeAPI](https://pokeapi.co/) para obtener información sobre los personajes de Pokémon. La API proporciona datos como nombres, tipos, habilidades y estadísticas de cada Pokémon.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Reglas y Consideraciones
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- La aplicación debe ser codificada usando React.
+- La pantalla de búsqueda debe contar con paginación.
+- Se recomienda el uso de librerías como Redux para el manejo de estado.
+- Código legible y bien documentado es esencial.
+- Añadir animaciones puede mejorar la experiencia del usuario.
