@@ -19,3 +19,44 @@
 .moving {
     animation: move 2s ease-in-out infinite;
 }
+
+@keyframes pokeBallBounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-20px);
+    }
+}
+
+.pokeball {
+    position: relative;
+    display: inline-block;
+    animation: bounce 1s infinite;
+    /* Agrega la animación de rebote */
+}
+
+@keyframes bounce {
+
+    0%,
+    20%,
+    50%,
+    80%,
+    100% {
+        transform: translateY(0);
+        /* posición original */
+    }
+
+    40% {
+        transform: translateY(-20px);
+        /* sube */
+    }
+
+    60% {
+        transform: translateY(-10px);
+        /* un poco más bajo */
+    }
+}

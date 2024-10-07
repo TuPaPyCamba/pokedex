@@ -15,29 +15,32 @@ const Catalog = () => {
   const [types, setTypes] = useState([])
   const [selectedTypes, setSelectedTypes] = useState([])
   const [isLoading, setIsLoading] = useState(true)
+  const [isLoadingComplete, setIsLoadingComplete] = useState(false)
+  const [isSearchBarVisible, setIsSearchBarVisible] = useState(false); // Nuevo estado para SearchBar
   const pokemonsPerPage = 10
 
-  // Efecto que se ejecuta al cargar el componente para obtener tipos y pokémons
   useEffect(() => {
     const fetchPokemons = async () => {
       try {
         setIsLoading(true)
         const response = await axios.get(`https://pokeapi.co/api/v2/pokemon?limit=1000`)
 
-        // Realiza solicitudes adicionales para obtener detalles de cada Pokémon
         const pokemonsWithTypes = await Promise.all(response.data.results.map(async (pokemon) => {
           const detailsResponse = await axios.get(pokemon.url)
           return detailsResponse.data
         }))
 
-        // Actualiza el estado con los Pokémon obtenidos
         setAllPokemons(pokemonsWithTypes)
         setTotalPokemons(pokemonsWithTypes.length)
         setDisplayedPokemons(pokemonsWithTypes.slice(0, pokemonsPerPage))
       } catch (error) {
-        console.error("Seguimos cargando los datos solicitados", error.message)
+        console.error("Error al cargar los datos:", error.message)
       } finally {
         setIsLoading(false)
+        setTimeout(() => {
+          setIsLoadingComplete(true)
+          setIsSearchBarVisible(true); // Mostrar el SearchBar después del timeout
+        }, 3000)
       }
     }
 
@@ -50,7 +53,6 @@ const Catalog = () => {
     fetchTypes()
   }, [])
 
-  // Efecto que filtra los Pokémon según el término de búsqueda y los filtros
   useEffect(() => {
     const filteredPokemons = allPokemons.filter(pokemon => {
       const matchesSearch = pokemon.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -62,12 +64,11 @@ const Catalog = () => {
       return matchesSearch && matchesFilters && matchesTypes
     })
 
-    setDisplayedPokemons(filteredPokemons.slice(0, pokemonsPerPage)) // Mostrar solo los primeros Pokémon filtrados
-    setTotalPokemons(filteredPokemons.length) // Actualizar el total de Pokémon filtrados
-    setPage(1) // Reiniciar la página al aplicar un filtro
+    setDisplayedPokemons(filteredPokemons.slice(0, pokemonsPerPage))
+    setTotalPokemons(filteredPokemons.length)
+    setPage(1)
   }, [searchTerm, allPokemons, filters, selectedTypes])
 
-  // Función para agregar o eliminar un filtro
   const toggleFilter = (filterName) => {
     setFilters(prevFilters => ({
       ...prevFilters,
@@ -75,14 +76,12 @@ const Catalog = () => {
     }))
   }
 
-  // Función para eliminar un filtro específico
   const removeFilter = (filterName) => {
     const updatedFilters = { ...filters }
     delete updatedFilters[filterName]
     setFilters(updatedFilters)
   }
 
-  // Función para agregar o eliminar un tipo seleccionado
   const toggleType = (type) => {
     setSelectedTypes(prevSelectedTypes => {
       if (prevSelectedTypes.includes(type)) {
@@ -93,7 +92,6 @@ const Catalog = () => {
     })
   }
 
-  // Efecto que maneja la paginación para los Pokémon mostrados
   useEffect(() => {
     const filteredPokemons = allPokemons.filter(pokemon => {
       const matchesSearch = pokemon.name.toLowerCase().includes(searchTerm.toLowerCase())
@@ -105,23 +103,22 @@ const Catalog = () => {
       return matchesSearch && matchesFilters && matchesTypes
     })
 
-    setDisplayedPokemons(filteredPokemons.slice((page - 1) * pokemonsPerPage, page * pokemonsPerPage)) // Actualizar los Pokémon mostrados según la página
+    setDisplayedPokemons(filteredPokemons.slice((page - 1) * pokemonsPerPage, page * pokemonsPerPage))
   }, [page, allPokemons, searchTerm, filters, selectedTypes])
 
   return (
     <Layout>
       <div>
-        {/* Componente de barra de búsqueda */}
-        <SearchBar
-          setSearchTerm={setSearchTerm}
-          filters={filters}
-          toggleFilter={toggleFilter}
-          types={types}
-          selectedTypes={selectedTypes}
-          toggleType={toggleType}
-        />
-
-        {/* Mostrar filtros aplicados */}
+        {isSearchBarVisible && ( // Condicional para mostrar el SearchBar
+          <SearchBar
+            setSearchTerm={setSearchTerm}
+            filters={filters}
+            toggleFilter={toggleFilter}
+            types={types}
+            selectedTypes={selectedTypes}
+            toggleType={toggleType}
+          />
+        )}
         <div className="flex flex-wrap gap-2 mb-4">
           {Object.keys(filters).map((filterName) =>
             filters[filterName] && (
@@ -148,19 +145,25 @@ const Catalog = () => {
             </span>
           ))}
         </div>
-
-        {/* Mostrar mensaje de carga y resultados */}
-        {isLoading ? (
+        {/* Pantalla de carga con Poké Ball animada */}
+        {!isLoadingComplete ? (
+          <div className="flex justify-center items-center flex-col h-64">
+            <div className="pokeball">
+              <img src='./pokeball.png' alt='pokeball' className='w-24 h-24' />
+            </div>
+            <div className="mt-4 text-center">
+              <p className="text-blue-500 font-bold">Capturando a los Pokémon, ¡por favor espera! no son fáciles de atrapar :(</p>
+            </div>
+          </div>
+        ) : isLoading ? (
           <p className="text-blue-500 font-bold">Cargando lista...</p>
-        ) : isLoading === false ? (
+        ) : displayedPokemons.length === 0 ? (
+          <p className="text-red-500 font-bold">No se encontraron resultados con los filtros aplicados.</p>
+        ) : (
           <>
-            {/* Componente que muestra la lista de Pokémon filtrados */}
             <PokemonList pokemons={displayedPokemons} />
-            {/* Componente de paginación que permite navegar entre páginas de Pokémon */}
             <Pagination page={page} setPage={setPage} totalPokemons={totalPokemons} />
           </>
-        ) : isLoading === false && displayedPokemons.length === 0 (
-          <p className="text-red-500 font-bold">No se encontraron resultados con los filtros aplicados.</p>
         )}
       </div>
     </Layout>
