@@ -1,8 +1,7 @@
-
 import { useState } from 'react'
 import { FiSearch, FiFilter } from 'react-icons/fi'
 
-const SearchBar = ({ setSearchTerm }) => {
+const SearchBar = ({ setSearchTerm, filters, toggleFilter, types, selectedTypes, toggleType }) => {
     const [filterOpen, setFilterOpen] = useState(false)
 
     const handleChange = (event) => {
@@ -15,7 +14,7 @@ const SearchBar = ({ setSearchTerm }) => {
         }
     }
 
-    const toggleFilter = () => {
+    const toggleFilterDropdown = () => {
         setFilterOpen(!filterOpen)
     }
 
@@ -25,7 +24,7 @@ const SearchBar = ({ setSearchTerm }) => {
                 <div className="flex items-center bg-white border border-gray-300 rounded-md shadow-sm">
                     <button 
                         className="p-2" 
-                        onClick={toggleFilter}
+                        onClick={toggleFilterDropdown}
                     >
                         <FiFilter className="text-gray-600" />
                     </button>
@@ -45,18 +44,17 @@ const SearchBar = ({ setSearchTerm }) => {
                         {/* Aquí van tus filtros */}
                         <h4 className="font-bold">Filtros:</h4>
                         <div className="mt-2">
-                            <label className="block">
-                                <input type="checkbox" className="mr-2" />
-                                Filtro 1
-                            </label>
-                            <label className="block">
-                                <input type="checkbox" className="mr-2" />
-                                Filtro 2
-                            </label>
-                            <label className="block">
-                                <input type="checkbox" className="mr-2" />
-                                Filtro 3
-                            </label>
+                            {types.map(type => (
+                                <label key={type.name} className="block">
+                                    <input 
+                                        type="checkbox" 
+                                        onChange={() => toggleType(type.name)} 
+                                        className="mr-2" 
+                                        checked={selectedTypes.includes(type.name)} 
+                                    />
+                                    {type.name}
+                                </label>
+                            ))}
                         </div>
                     </div>
                 )}
