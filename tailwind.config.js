@@ -7,7 +7,8 @@ module.exports = {
         'poke-red' : '#D31A20',
         'poke-gray' : '#7A7A7A',
         'poke-md-white' : '#F6F6F4',
-        'poke-blue': '#356ABC'
+        'poke-blue': '#356ABC',
+        'poke-yelow': '#FFCD00'
       }, 
       minHeight: {
         '80%': '80%'

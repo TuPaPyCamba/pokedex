@@ -20,17 +20,25 @@ const Catalog = () => {
   // Efecto que se ejecuta al cargar el componente para obtener tipos y pokémons
   useEffect(() => {
     const fetchPokemons = async () => {
-      setIsLoading(true) // Comienza la carga
-      const response = await axios.get(`https://pokeapi.co/api/v2/pokemon?limit=1000`) 
-      const pokemonsWithTypes = await Promise.all(response.data.results.map(async (pokemon) => {
-        const detailsResponse = await axios.get(pokemon.url)
-        return detailsResponse.data 
-      }))
-      
-      setAllPokemons(pokemonsWithTypes)
-      setTotalPokemons(pokemonsWithTypes.length) 
-      setDisplayedPokemons(pokemonsWithTypes.slice(0, pokemonsPerPage)) 
-      setIsLoading(false) 
+      try {
+        setIsLoading(true)
+        const response = await axios.get(`https://pokeapi.co/api/v2/pokemon?limit=1000`)
+
+        // Realiza solicitudes adicionales para obtener detalles de cada Pokémon
+        const pokemonsWithTypes = await Promise.all(response.data.results.map(async (pokemon) => {
+          const detailsResponse = await axios.get(pokemon.url)
+          return detailsResponse.data
+        }))
+
+        // Actualiza el estado con los Pokémon obtenidos
+        setAllPokemons(pokemonsWithTypes)
+        setTotalPokemons(pokemonsWithTypes.length)
+        setDisplayedPokemons(pokemonsWithTypes.slice(0, pokemonsPerPage))
+      } catch (error) {
+        console.error("Seguimos cargando los datos solicitados", error.message)
+      } finally {
+        setIsLoading(false)
+      }
     }
 
     const fetchTypes = async () => {
@@ -141,19 +149,18 @@ const Catalog = () => {
           ))}
         </div>
 
-        {/* Mostrar mensaje de carga */}
+        {/* Mostrar mensaje de carga y resultados */}
         {isLoading ? (
           <p className="text-blue-500 font-bold">Cargando lista...</p>
-        ) : displayedPokemons.length === 0 ? (
-          <p className="text-red-500 font-bold">No se encontraron resultados con los filtros aplicados.</p>
-        ) : (
+        ) : isLoading === false ? (
           <>
             {/* Componente que muestra la lista de Pokémon filtrados */}
             <PokemonList pokemons={displayedPokemons} />
-
             {/* Componente de paginación que permite navegar entre páginas de Pokémon */}
             <Pagination page={page} setPage={setPage} totalPokemons={totalPokemons} />
           </>
+        ) : isLoading === false && displayedPokemons.length === 0 (
+          <p className="text-red-500 font-bold">No se encontraron resultados con los filtros aplicados.</p>
         )}
       </div>
     </Layout>

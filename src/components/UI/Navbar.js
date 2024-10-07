@@ -28,8 +28,8 @@ const Navbar = () => {
 
                 {/* Enlaces a la derecha */}
                 <div className={`hidden lg:flex space-x-4`}>
-                    <a href="/favorites" className="text-black py-2 px-4 hover:text-red-600 hover:font-bold">Favoritos</a>
-                    <a href="/" className="bg-MazeRedColor py-2 px-4 text-white hover:bg-slate-700">Catalogo</a>
+                    <a href="/favorites" className="text-white font-bold py-2 px-4 bg-poke-blue rounded-md hover:scale-110">Favoritos</a>
+                    <a href="/" className="text-white font-bold py-2 px-4 bg-poke-blue rounded-md hover:scale-110">Catalogo</a>
                 </div>
             </div>
 
