@@ -24,12 +24,15 @@ Para ejecutar esta aplicación en tu máquina local, sigue estos pasos:
    git clone https://github.com/tuusuario/pokedex.git
 
 2. **Navega al directorio del proyecto**:
+    ```bash
     cd pokedex
 
 3. **Instala las dependencias:**
+    ```bash
     npm install
 
 4. **npm install**
+    ```bash
     npm start
 
 **La aplicación debería abrirse en tu navegador en http://localhost:3000.**

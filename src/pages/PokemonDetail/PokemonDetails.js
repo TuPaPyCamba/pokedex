@@ -42,7 +42,7 @@ const PokemonDetails = () => {
                 </div>
                 <div className="md:ml-14 mt-10 md:mt-0 md:flex-grow space-y-4 text-black text-lg">
                     <div className="flex justify-between flex-col w-full 450px:flex-row 768px:flex-col lg:flex-row">
-                        <h1 className="text-3xl md:text-5xl font-bold text-gray-800 mb-5">{pokemon.name}</h1>
+                        <h1 className="text-3xl md:text-5xl font-bold text-gray-800 mb-5 ">{pokemon.name}</h1>
                         <FavoriteButton pokemon={pokemon} />
                     </div>
                     <p><strong>Tipos: </strong>{pokemon.types.map(type => type.type.name).join(', ')}</p>

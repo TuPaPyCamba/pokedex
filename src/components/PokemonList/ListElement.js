@@ -30,7 +30,7 @@ const PokemonList = ({ pokemonName }) => {
         return <p>Error: {error}</p>
     }
 
-    // Asegúrate de que pokemonData y pokemonData.types existen antes de usarlos
+    // Asegúra de que pokemonData y pokemonData.types existen antes de usarlos
     const primaryType = pokemonData.types[0]?.type.name
     const backgroundColor = typeColors[primaryType] || '#FFFFFF'
 
