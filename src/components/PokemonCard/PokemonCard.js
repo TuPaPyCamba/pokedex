@@ -5,7 +5,7 @@ const PokemonCard = ({ pokemon }) => {
 
     return (
         <div 
-            className="rounded-2xl shadow-xl w-64 450px:w-44 hover:shadow-2xl hover:scale-105 transform transition-transform duration-300 p-4"
+            className="rounded-2xl shadow-xl w-64 450px:w-44 border border-gray-300 hover:shadow-2xl hover:scale-105 transform transition-transform duration-300 p-4"
             style={{
                 background: `linear-gradient(135deg, ${typeColors[pokemonType]} 0%, rgba(255, 255, 255, 0.2) 100%)`,
                 backdropFilter: 'blur(5px)',

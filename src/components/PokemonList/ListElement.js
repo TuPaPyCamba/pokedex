@@ -23,14 +23,14 @@ const PokemonList = ({ pokemonName }) => {
     }, [pokemonName])
 
     if (loading) {
-        return <p>Cargando...</p>
+        return <p></p>
     }
 
     if (error) {
         return <p>Error: {error}</p>
     }
 
-    // Asegúra de que pokemonData y pokemonData.types existen antes de usarlos
+    // Asegúrate de que pokemonData y pokemonData.types existen antes de usarlos
     const primaryType = pokemonData.types[0]?.type.name
     const backgroundColor = typeColors[primaryType] || '#FFFFFF'
 
