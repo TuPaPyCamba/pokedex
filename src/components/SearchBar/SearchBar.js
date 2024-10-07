@@ -19,7 +19,7 @@ const SearchBar = ({ setSearchTerm, filters, toggleFilter, types, selectedTypes,
     }
 
     return (
-        <div className="flex flex-col items-center pb-12">
+        <div className="flex flex-col items-center pb-4">
             <div className="relative w-full md:w-1/2">
                 <div className="flex items-center bg-white border border-gray-300 rounded-md shadow-sm">
                     <button 

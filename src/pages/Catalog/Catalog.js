@@ -1,101 +1,104 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
-import PokemonList from '../../components/PokemonList/PokemonList.js';
-import SearchBar from '../../components/SearchBar/SearchBar.js';
-import Pagination from '../../components/Pagination/Pagination.js';
-import Layout from '../../components/UI/Layout.js';
+import { useState, useEffect } from 'react'
+import axios from 'axios'
+import PokemonList from '../../components/PokemonList/PokemonList.js'
+import SearchBar from '../../components/SearchBar/SearchBar.js'
+import Pagination from '../../components/Pagination/Pagination.js'
+import Layout from '../../components/UI/Layout.js'
 
 const Catalog = () => {
-  const [allPokemons, setAllPokemons] = useState([]);
-  const [displayedPokemons, setDisplayedPokemons] = useState([]);
-  const [page, setPage] = useState(1);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [totalPokemons, setTotalPokemons] = useState(0);
-  const [filters, setFilters] = useState({});
-  const [types, setTypes] = useState([]);
-  const [selectedTypes, setSelectedTypes] = useState([]);
-  const pokemonsPerPage = 10;
+  const [allPokemons, setAllPokemons] = useState([])
+  const [displayedPokemons, setDisplayedPokemons] = useState([])
+  const [page, setPage] = useState(1)
+  const [searchTerm, setSearchTerm] = useState('')
+  const [totalPokemons, setTotalPokemons] = useState(0)
+  const [filters, setFilters] = useState({})
+  const [types, setTypes] = useState([])
+  const [selectedTypes, setSelectedTypes] = useState([])
+  const [isLoading, setIsLoading] = useState(true)
+  const pokemonsPerPage = 10
 
   // Efecto que se ejecuta al cargar el componente para obtener tipos y pokémons
   useEffect(() => {
     const fetchPokemons = async () => {
-      const response = await axios.get(`https://pokeapi.co/api/v2/pokemon?limit=1000`); // Obtener un número alto de Pokémon
+      setIsLoading(true) // Comienza la carga
+      const response = await axios.get(`https://pokeapi.co/api/v2/pokemon?limit=1000`) 
       const pokemonsWithTypes = await Promise.all(response.data.results.map(async (pokemon) => {
-        const detailsResponse = await axios.get(pokemon.url); // Obtener detalles de cada Pokémon
-        return detailsResponse.data; // Devolver el Pokémon con sus tipos
-      }));
+        const detailsResponse = await axios.get(pokemon.url)
+        return detailsResponse.data 
+      }))
       
-      setAllPokemons(pokemonsWithTypes);
-      setTotalPokemons(pokemonsWithTypes.length); // Total de Pokémon filtrables
-      setDisplayedPokemons(pokemonsWithTypes.slice(0, pokemonsPerPage)); // Mostrar los primeros Pokémon por defecto
-    };
+      setAllPokemons(pokemonsWithTypes)
+      setTotalPokemons(pokemonsWithTypes.length) 
+      setDisplayedPokemons(pokemonsWithTypes.slice(0, pokemonsPerPage)) 
+      setIsLoading(false) 
+    }
 
     const fetchTypes = async () => {
-      const response = await axios.get('https://pokeapi.co/api/v2/type/');
-      setTypes(response.data.results);
-    };
+      const response = await axios.get('https://pokeapi.co/api/v2/type/')
+      setTypes(response.data.results)
+    }
 
-    fetchPokemons();
-    fetchTypes();
-  }, []);
+    fetchPokemons()
+    fetchTypes()
+  }, [])
 
   // Efecto que filtra los Pokémon según el término de búsqueda y los filtros
   useEffect(() => {
     const filteredPokemons = allPokemons.filter(pokemon => {
-      const matchesSearch = pokemon.name.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesFilters = Object.keys(filters).every(key => filters[key]);
+      const matchesSearch = pokemon.name.toLowerCase().includes(searchTerm.toLowerCase())
+      const matchesFilters = Object.keys(filters).every(key => filters[key])
 
-      const pokemonTypes = pokemon.types.map(type => type.type.name);
-      const matchesTypes = selectedTypes.length === 0 || selectedTypes.some(type => pokemonTypes.includes(type));
+      const pokemonTypes = pokemon.types.map(type => type.type.name)
+      const matchesTypes = selectedTypes.length === 0 || selectedTypes.some(type => pokemonTypes.includes(type))
 
-      return matchesSearch && matchesFilters && matchesTypes;
-    });
+      return matchesSearch && matchesFilters && matchesTypes
+    })
 
-    setDisplayedPokemons(filteredPokemons.slice(0, pokemonsPerPage)); // Mostrar solo los primeros Pokémon filtrados
-    setTotalPokemons(filteredPokemons.length); // Actualizar el total de Pokémon filtrados
-    setPage(1); // Reiniciar la página al aplicar un filtro
-  }, [searchTerm, allPokemons, filters, selectedTypes]);
+    setDisplayedPokemons(filteredPokemons.slice(0, pokemonsPerPage)) // Mostrar solo los primeros Pokémon filtrados
+    setTotalPokemons(filteredPokemons.length) // Actualizar el total de Pokémon filtrados
+    setPage(1) // Reiniciar la página al aplicar un filtro
+  }, [searchTerm, allPokemons, filters, selectedTypes])
 
   // Función para agregar o eliminar un filtro
   const toggleFilter = (filterName) => {
     setFilters(prevFilters => ({
       ...prevFilters,
       [filterName]: !prevFilters[filterName],
-    }));
-  };
+    }))
+  }
 
   // Función para eliminar un filtro específico
   const removeFilter = (filterName) => {
-    const updatedFilters = { ...filters };
-    delete updatedFilters[filterName];
-    setFilters(updatedFilters);
-  };
+    const updatedFilters = { ...filters }
+    delete updatedFilters[filterName]
+    setFilters(updatedFilters)
+  }
 
   // Función para agregar o eliminar un tipo seleccionado
   const toggleType = (type) => {
     setSelectedTypes(prevSelectedTypes => {
       if (prevSelectedTypes.includes(type)) {
-        return prevSelectedTypes.filter(t => t !== type);
+        return prevSelectedTypes.filter(t => t !== type)
       } else {
-        return [...prevSelectedTypes, type];
+        return [...prevSelectedTypes, type]
       }
-    });
-  };
+    })
+  }
 
   // Efecto que maneja la paginación para los Pokémon mostrados
   useEffect(() => {
     const filteredPokemons = allPokemons.filter(pokemon => {
-      const matchesSearch = pokemon.name.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesFilters = Object.keys(filters).every(key => filters[key]);
+      const matchesSearch = pokemon.name.toLowerCase().includes(searchTerm.toLowerCase())
+      const matchesFilters = Object.keys(filters).every(key => filters[key])
 
-      const pokemonTypes = pokemon.types.map(type => type.type.name);
-      const matchesTypes = selectedTypes.length === 0 || selectedTypes.some(type => pokemonTypes.includes(type));
+      const pokemonTypes = pokemon.types.map(type => type.type.name)
+      const matchesTypes = selectedTypes.length === 0 || selectedTypes.some(type => pokemonTypes.includes(type))
 
-      return matchesSearch && matchesFilters && matchesTypes;
-    });
+      return matchesSearch && matchesFilters && matchesTypes
+    })
 
-    setDisplayedPokemons(filteredPokemons.slice((page - 1) * pokemonsPerPage, page * pokemonsPerPage)); // Actualizar los Pokémon mostrados según la página
-  }, [page, allPokemons, searchTerm, filters, selectedTypes]);
+    setDisplayedPokemons(filteredPokemons.slice((page - 1) * pokemonsPerPage, page * pokemonsPerPage)) // Actualizar los Pokémon mostrados según la página
+  }, [page, allPokemons, searchTerm, filters, selectedTypes])
 
   return (
     <Layout>
@@ -138,8 +141,10 @@ const Catalog = () => {
           ))}
         </div>
 
-        {/* Mostrar mensaje si no hay Pokémon filtrados */}
-        {displayedPokemons.length === 0 ? (
+        {/* Mostrar mensaje de carga */}
+        {isLoading ? (
+          <p className="text-blue-500 font-bold">Cargando lista...</p>
+        ) : displayedPokemons.length === 0 ? (
           <p className="text-red-500 font-bold">No se encontraron resultados con los filtros aplicados.</p>
         ) : (
           <>
@@ -152,7 +157,7 @@ const Catalog = () => {
         )}
       </div>
     </Layout>
-  );
-};
+  )
+}
 
-export default Catalog;
+export default Catalog

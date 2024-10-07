@@ -12,6 +12,9 @@ module.exports = {
       minHeight: {
         '80%': '80%'
       },
+      boxShadow: {
+        'up': '0 -4px 50px rgba(0, 0, 0, 0.5)'
+      },
       screens: {
         '768px': '768px',
         '450px' : '500px'
