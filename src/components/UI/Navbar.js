@@ -8,6 +8,11 @@ const Navbar = () => {
         setIsOpen(!isOpen)
     }
 
+    // Función para cerrar el menú al hacer clic en un enlace
+    const handleLinkClick = () => {
+        setIsOpen(false);
+    }
+
     return (
         <nav className="bg-poke-red  h-[120px] w-full top-0 left-0 z-50 fixed">
             <div className="flex justify-between items-center px-4 mx-auto max-w-[1200px] h-full">
@@ -28,7 +33,7 @@ const Navbar = () => {
 
                 {/* Enlaces a la derecha */}
                 <div className={`hidden lg:flex space-x-4`}>
-                    <Link to='/favorites' >
+                    <Link to='/favorites'>
                         <div className="text-white font-bold py-2 px-4 bg-poke-blue rounded-md hover:scale-110">Favoritos</div>
                     </Link>
                     <Link to='/'>
@@ -43,10 +48,10 @@ const Navbar = () => {
             {/* Menú desplegable en pantallas pequeñas */}
             {isOpen && (
                 <div className="lg:hidden absolute top-16 right-0 bg-white text-black w-48 shadow-lg rounded-lg">
-                    <Link to='/favorites'>
+                    <Link to='/favorites' onClick={handleLinkClick}>
                         <div className="block px-4 py-2 hover:bg-gray-200">Favoritos</div>
                     </Link>
-                    <Link to='/'>
+                    <Link to='/' onClick={handleLinkClick}>
                         <div className="block px-4 py-2 hover:bg-gray-200">Catalogo</div>
                     </Link>
                 </div>

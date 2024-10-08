@@ -1,8 +1,9 @@
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { FiSearch, FiFilter } from 'react-icons/fi'
 
 const SearchBar = ({ setSearchTerm, filters, toggleFilter, types, selectedTypes, toggleType }) => {
     const [filterOpen, setFilterOpen] = useState(false)
+    const filterRef = useRef(null)
 
     const handleChange = (event) => {
         setSearchTerm(event.target.value)
@@ -17,6 +18,26 @@ const SearchBar = ({ setSearchTerm, filters, toggleFilter, types, selectedTypes,
     const toggleFilterDropdown = () => {
         setFilterOpen(!filterOpen)
     }
+
+    // Cierra el menú de filtros si se hace clic fuera de él
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (filterRef.current && !filterRef.current.contains(event.target)) {
+                // Ocultar el menú de filtros al hacer clic fuera
+                setFilterOpen(false)
+            }
+        }
+
+        if (filterOpen) {
+            document.addEventListener('mousedown', handleClickOutside)
+        } else {
+            document.removeEventListener('mousedown', handleClickOutside)
+        }
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside)
+        }
+    }, [filterOpen])
 
     return (
         <div className="flex flex-col items-center pb-4">
@@ -39,9 +60,10 @@ const SearchBar = ({ setSearchTerm, filters, toggleFilter, types, selectedTypes,
                         <FiSearch className="text-gray-600" />
                     </div>
                 </div>
+
                 {filterOpen && (
-                    <div className="absolute left-0 right-0 mt-2 bg-white border border-gray-300 shadow-lg rounded-md p-4 z-10">
-                        {/* Aquí van tus filtros */}
+                    <div ref={filterRef} className="absolute left-0 right-0 mt-2 bg-white border border-gray-300 shadow-lg rounded-md p-4 z-10">
+                        {/* Filtros */}
                         <h4 className="font-bold">Filtros:</h4>
                         <div className="mt-2">
                             {types.map(type => (
