@@ -16,31 +16,36 @@ const Catalog = () => {
   const [selectedTypes, setSelectedTypes] = useState([])
   const [isLoading, setIsLoading] = useState(true)
   const [isLoadingComplete, setIsLoadingComplete] = useState(false)
-  const [isSearchBarVisible, setIsSearchBarVisible] = useState(false); // Nuevo estado para SearchBar
   const pokemonsPerPage = 10
+  const concurrentRequests = 5
+
+  const fetchPokemonInBatches = async (urls, limit) => {
+    let results = []
+    for (let i = 0; i < urls.length; i += limit) {
+      const batch = urls.slice(i, i + limit)
+      const responses = await Promise.all(batch.map(url => axios.get(url).then(res => res.data)))
+      results.push(...responses)
+    }
+    return results
+  }
 
   useEffect(() => {
     const fetchPokemons = async () => {
       try {
         setIsLoading(true)
         const response = await axios.get(`https://pokeapi.co/api/v2/pokemon?limit=1000`)
+        const pokemonUrls = response.data.results.map(pokemon => pokemon.url)
 
-        const pokemonsWithTypes = await Promise.all(response.data.results.map(async (pokemon) => {
-          const detailsResponse = await axios.get(pokemon.url)
-          return detailsResponse.data
-        }))
+        const pokemonsWithTypes = await fetchPokemonInBatches(pokemonUrls, concurrentRequests)
 
-        setAllPokemons(pokemonsWithTypes)
-        setTotalPokemons(pokemonsWithTypes.length)
+        setAllPokemons(pokemonsWithTypes);
+        setTotalPokemons(pokemonsWithTypes.length);
         setDisplayedPokemons(pokemonsWithTypes.slice(0, pokemonsPerPage))
+        setIsLoadingComplete(true)
       } catch (error) {
         console.error("Error al cargar los datos:", error.message)
       } finally {
         setIsLoading(false)
-        setTimeout(() => {
-          setIsLoadingComplete(true)
-          setIsSearchBarVisible(true); // Mostrar el SearchBar después del timeout
-        }, 3000)
       }
     }
 
@@ -64,10 +69,9 @@ const Catalog = () => {
       return matchesSearch && matchesFilters && matchesTypes
     })
 
-    setDisplayedPokemons(filteredPokemons.slice(0, pokemonsPerPage))
+    setDisplayedPokemons(filteredPokemons.slice((page - 1) * pokemonsPerPage, page * pokemonsPerPage))
     setTotalPokemons(filteredPokemons.length)
-    setPage(1)
-  }, [searchTerm, allPokemons, filters, selectedTypes])
+  }, [searchTerm, allPokemons, filters, selectedTypes, page])
 
   const toggleFilter = (filterName) => {
     setFilters(prevFilters => ({
@@ -80,7 +84,7 @@ const Catalog = () => {
     const updatedFilters = { ...filters }
     delete updatedFilters[filterName]
     setFilters(updatedFilters)
-  }
+  };
 
   const toggleType = (type) => {
     setSelectedTypes(prevSelectedTypes => {
@@ -92,24 +96,10 @@ const Catalog = () => {
     })
   }
 
-  useEffect(() => {
-    const filteredPokemons = allPokemons.filter(pokemon => {
-      const matchesSearch = pokemon.name.toLowerCase().includes(searchTerm.toLowerCase())
-      const matchesFilters = Object.keys(filters).every(key => filters[key])
-
-      const pokemonTypes = pokemon.types.map(type => type.type.name)
-      const matchesTypes = selectedTypes.length === 0 || selectedTypes.some(type => pokemonTypes.includes(type))
-
-      return matchesSearch && matchesFilters && matchesTypes
-    })
-
-    setDisplayedPokemons(filteredPokemons.slice((page - 1) * pokemonsPerPage, page * pokemonsPerPage))
-  }, [page, allPokemons, searchTerm, filters, selectedTypes])
-
   return (
     <Layout>
       <div>
-        {isSearchBarVisible && ( // Condicional para mostrar el SearchBar
+        {isLoadingComplete && (
           <SearchBar
             setSearchTerm={setSearchTerm}
             filters={filters}
@@ -128,7 +118,7 @@ const Catalog = () => {
                   className="ml-2 text-white font-bold"
                   onClick={() => removeFilter(filterName)}
                 >
-                  &times; {/* Icono de cerrar */}
+                  &times;
                 </button>
               </span>
             )
@@ -140,23 +130,20 @@ const Catalog = () => {
                 className="ml-2 text-white font-bold"
                 onClick={() => toggleType(type)}
               >
-                &times; {/* Icono de cerrar */}
+                &times;
               </button>
             </span>
           ))}
         </div>
-        {/* Pantalla de carga con Poké Ball animada */}
-        {!isLoadingComplete ? (
+        {isLoading ? (
           <div className="flex justify-center items-center flex-col h-64">
             <div className="pokeball">
-              <img src='./pokeball.png' alt='pokeball' className='w-24 h-24' />
+              <img src='/pokeball.png' alt='pokeball' className='w-24 h-24' />
             </div>
             <div className="mt-4 text-center">
               <p className="text-blue-500 font-bold">Capturando a los Pokémon, ¡por favor espera! no son fáciles de atrapar :(</p>
             </div>
           </div>
-        ) : isLoading ? (
-          <p className="text-blue-500 font-bold">Cargando lista...</p>
         ) : displayedPokemons.length === 0 ? (
           <p className="text-red-500 font-bold">No se encontraron resultados con los filtros aplicados.</p>
         ) : (
