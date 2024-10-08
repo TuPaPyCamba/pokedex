@@ -28,8 +28,12 @@ const Navbar = () => {
 
                 {/* Enlaces a la derecha */}
                 <div className={`hidden lg:flex space-x-4`}>
-                    <a href="/favorites" className="text-white font-bold py-2 px-4 bg-poke-blue rounded-md hover:scale-110">Favoritos</a>
-                    <a href="/" className="text-white font-bold py-2 px-4 bg-poke-blue rounded-md hover:scale-110">Catalogo</a>
+                    <Link to='/favorites' >
+                        <div className="text-white font-bold py-2 px-4 bg-poke-blue rounded-md hover:scale-110">Favoritos</div>
+                    </Link>
+                    <Link to='/'>
+                        <div className="text-white font-bold py-2 px-4 bg-poke-blue rounded-md hover:scale-110">Catalogo</div>
+                    </Link>
                 </div>
             </div>
 
@@ -39,8 +43,12 @@ const Navbar = () => {
             {/* Menú desplegable en pantallas pequeñas */}
             {isOpen && (
                 <div className="lg:hidden absolute top-16 right-0 bg-white text-black w-48 shadow-lg rounded-lg">
-                    <a href="/favorites" className="block px-4 py-2 hover:bg-gray-200">Favoritos</a>
-                    <a href="/" className="block px-4 py-2 hover:bg-gray-200">Catalogo</a>
+                    <Link to='/favorites'>
+                        <div className="block px-4 py-2 hover:bg-gray-200">Favoritos</div>
+                    </Link>
+                    <Link to='/'>
+                        <div className="block px-4 py-2 hover:bg-gray-200">Catalogo</div>
+                    </Link>
                 </div>
             )}
         </nav>
