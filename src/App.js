@@ -2,7 +2,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom' // Importa componentes para el enrutamiento.
 import Catalog from './pages/Catalog/Catalog.js' // Importa la página del catálogo de Pokémon.
 import PokemonDetails from './pages/PokemonDetail/PokemonDetails.js' // Importa la página de detalles de un Pokémon específico.
-import Favorites from './pages/Favorites/Favorites.js' // Importa la página de favoritos de Pokémon.
+import Favorites from './pages/Favorites/favorites.js' // Importa la página de favoritos de Pokémon.
 import Navbar from './components/UI/Navbar.js' // Importa el componente de navegación.
 import Footer from './components/UI/Footer.js' // Importa el componente de pie de página.
 
