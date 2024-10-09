@@ -35,6 +35,10 @@ Para ejecutar esta aplicación en tu máquina local, sigue estos pasos:
     ```bash
     npm start
 
+## Opcion alternativa
+
+Si prefieres no hacer la instalación manual, puedes acceder a la aplicación en línea a través del siguiente enlace: [Pokédex en Netlify.](https://magnificent-nougat-8f6546.netlify.app/) Ten en cuenta que, al ser un servicio de hosting gratuito, puede haber retrasos en los tiempos de carga ajenos a la aplicación.
+
 **La aplicación debería abrirse en tu navegador en http://localhost:3000.**
 
 ## Uso
