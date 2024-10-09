@@ -1,31 +1,47 @@
 import { useState, useEffect } from 'react'
 
+/**
+ * Componente que representa un botón para añadir o eliminar un Pokémon de la lista de favoritos.
+ * 
+ * Este componente permite a los usuarios marcar un Pokémon como favorito,
+ * almacenando la información en el localStorage del navegador.
+ * La apariencia del botón cambia dinámicamente según si el Pokémon es favorito o no.
+ * 
+ * @param {Object} props - Las propiedades pasadas al componente.
+ * @param {Object} props.pokemon - Un objeto que representa un Pokémon,
+ * debe contener al menos la propiedad `name`.
+ * 
+ * @returns {JSX.Element} Un botón que permite al usuario añadir o eliminar el Pokémon de sus favoritos.
+ */
 const FavoriteButton = ({ pokemon }) => {
+  // Estado que indica si el Pokémon es favorito
   const [isFavorite, setIsFavorite] = useState(false)
 
   // Cargar la lista de favoritos desde localStorage cuando el componente se monta
   useEffect(() => {
     const favorites = JSON.parse(localStorage.getItem("favorites")) || []
+    // Verifica si el Pokémon ya está en la lista de favoritos
     const isFavorited = favorites.some((favPokemon) => favPokemon.name === pokemon.name)
     setIsFavorite(isFavorited)
   }, [pokemon.name])
 
-  // Función para añadir un Pokémon a favoritos
+  // Función para añadir un Pokémon a la lista de favoritos
   const addToFavorites = () => {
     const favorites = JSON.parse(localStorage.getItem("favorites")) || []
+    // Agrega el Pokémon a la lista de favoritos
     favorites.push(pokemon)
     localStorage.setItem("favorites", JSON.stringify(favorites))
     setIsFavorite(true); // Cambia el estado a favorito
   }
 
-  // Función para eliminar un Pokémon de favoritos
+  // Función para eliminar un Pokémon de la lista de favoritos
   const removeFromFavorites = () => {
     let favorites = JSON.parse(localStorage.getItem("favorites")) || []
+    // Filtra la lista para eliminar el Pokémon
     favorites = favorites.filter((favPokemon) => favPokemon.name !== pokemon.name)
     localStorage.setItem("favorites", JSON.stringify(favorites))
     setIsFavorite(false); // Cambia el estado a no favorito
   }
-
 
   // Render del botón con funcionalidad dinámica
   return (

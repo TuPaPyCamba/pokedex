@@ -1,19 +1,21 @@
-import React from "react";
-import { FaSquareXTwitter } from "react-icons/fa6"
-import { FaFacebookSquare } from "react-icons/fa"
-import { IoLogoInstagram } from "react-icons/io5"
-import { Link } from "react-router-dom"
+// Importación de dependencias y componentes necesarios
+import React from "react"; // Importa React para poder usar JSX
+import { FaSquareXTwitter } from "react-icons/fa6"; // Icono de Twitter
+import { FaFacebookSquare } from "react-icons/fa"; // Icono de Facebook
+import { IoLogoInstagram } from "react-icons/io5"; // Icono de Instagram
+import { Link } from "react-router-dom"; // Importa Link para la navegación
 
+// Componente Footer que define el pie de página de la aplicación
 const Footer = () => {
     return (
-        <footer className="bg-poke-gray w-full text-white py-10">
-            <div className="container max-w-[1200px] mx-auto flex flex-col justify-between px-4">
-                <div className="flex flex-col lg:flex-row lg:justify-between sm:flex-col">
-                    <div className="flex justify-start flex-shrink-0 items-center mb-4 lg:mb-0">
+        <footer className="bg-poke-gray w-full text-white py-10"> {/* Estilos para el pie de página */}
+            <div className="container max-w-[1200px] mx-auto flex flex-col justify-between px-4"> {/* Contenedor principal */}
+                <div className="flex flex-col lg:flex-row lg:justify-between sm:flex-col"> {/* Flexbox para organizar contenido */}
+                    <div className="flex justify-start flex-shrink-0 items-center mb-4 lg:mb-0"> {/* Logo */}
                         <img src="/pokedex.png" alt="Logo" className="h-8 mr-2" />
                     </div>
                     {/* Línks de redes para escritorio */}
-                    <div className="hidden lg:flex justify-between space-x-4"> {/* Oculto en móviles */}
+                    <div className="hidden lg:flex justify-between space-x-4"> {/* Redes ocultas en móviles */}
                         <Link to="https://x.com/Pokemon" className="flex items-center">
                             <FaSquareXTwitter className="h-6 w-6" />
                         </Link>
@@ -25,9 +27,9 @@ const Footer = () => {
                         </Link>
                     </div>
                 </div>
-                {/* Línea blanca */}
+                {/* Línea blanca separadora */}
                 <div className="bg-poke-gray h-1 w-full mt-4 mb-4" />
-                <div className="flex flex-col space-y-2 md:flex-row md:space-x-4 md:space-y-0">
+                <div className="flex flex-col space-y-2 md:flex-row md:space-x-4 md:space-y-0"> {/* Links adicionales */}
                     <Link to="" className="text-white hover:text-gray-400 transition duration-200 font-bold">
                         Ayuda
                     </Link>
@@ -41,7 +43,7 @@ const Footer = () => {
                         Acerca de PokeDex
                     </Link>
                 </div>
-                {/* Línea blanca */}
+                {/* Línea blanca separadora */}
                 <div className="flex lg:hidden bg-MazeBarColor h-1 w-full mt-4 mb-4" />
                 {/* Línks de redes para móviles */}
                 <div className="flex lg:hidden justify-start space-x-2 mt-4">
@@ -57,12 +59,12 @@ const Footer = () => {
                 </div>
                 <div>
                     <p className="text-sm mt-4">
-                        © 2024 PokeDex. Todos los derechos reservados.
+                        © 2024 PokeDex. Todos los derechos reservados. {/* Mensaje de derechos de autor */}
                     </p>
                 </div>
             </div>
         </footer>
-    );
-};
+    )
+}
 
-export default Footer;
+export default Footer // Exporta el componente Footer para su uso en otras partes de la aplicación.

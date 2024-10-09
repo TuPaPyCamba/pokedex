@@ -1,20 +1,21 @@
-import React, { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useState } from 'react' // Importa el hook useState
+import { Link } from 'react-router-dom' // Importa Link para la navegación
 
 const Navbar = () => {
-    const [isOpen, setIsOpen] = useState(false);
+    const [isOpen, setIsOpen] = useState(false) // Estado para controlar el menú desplegable
 
+    // Función para alternar el estado del menú
     const toggleMenu = () => {
         setIsOpen(!isOpen)
     }
 
     // Función para cerrar el menú al hacer clic en un enlace
     const handleLinkClick = () => {
-        setIsOpen(false);
+        setIsOpen(false)
     }
 
     return (
-        <nav className="bg-poke-red  h-[120px] w-full top-0 left-0 z-50 fixed">
+        <nav className="bg-poke-red h-[120px] w-full top-0 left-0 z-50 fixed">
             <div className="flex justify-between items-center px-4 mx-auto max-w-[1200px] h-full">
                 {/* Logotipo a la izquierda */}
                 <Link to="/">
@@ -37,7 +38,7 @@ const Navbar = () => {
                         <div className="text-white font-bold py-2 px-4 bg-poke-blue rounded-md hover:scale-110">Favoritos</div>
                     </Link>
                     <Link to='/'>
-                        <div className="text-white font-bold py-2 px-4 bg-poke-blue rounded-md hover:scale-110">Catalogo</div>
+                        <div className="text-white font-bold py-2 px-4 bg-poke-blue rounded-md hover:scale-110">Catálogo</div>
                     </Link>
                 </div>
             </div>
@@ -52,7 +53,7 @@ const Navbar = () => {
                         <div className="block px-4 py-2 hover:bg-gray-200">Favoritos</div>
                     </Link>
                     <Link to='/' onClick={handleLinkClick}>
-                        <div className="block px-4 py-2 hover:bg-gray-200">Catalogo</div>
+                        <div className="block px-4 py-2 hover:bg-gray-200">Catálogo</div>
                     </Link>
                 </div>
             )}
@@ -60,4 +61,4 @@ const Navbar = () => {
     )
 }
 
-export default Navbar
+export default Navbar // Exporta el componente Navbar
