@@ -61,4 +61,4 @@ const Navbar = () => {
     )
 }
 
-export default Navbar // Exporta el componente Navbar
+export default Navbar 
