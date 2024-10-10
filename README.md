@@ -39,7 +39,7 @@ Para ejecutar esta aplicación en tu máquina local, sigue estos pasos:
 
 ## Opcion alternativa
 
-Si prefieres no hacer la instalación manual, puedes acceder a la aplicación en línea a través del siguiente enlace: [Pokédex en Netlify.](https://67070453e7579d105448efa2--pokedexcamba.netlify.app/) Ten en cuenta que, **al ser un servicio de hosting gratuito, puede haber retrasos en los tiempos de carga ajenos a la aplicación.**
+Si prefieres no hacer la instalación manual, puedes acceder a la aplicación en línea a través del siguiente enlace: [Pokédex en Netlify.](https://670718a4bd9ce4269025def3--pokedexcamba.netlify.app/) Ten en cuenta que, **al ser un servicio de hosting gratuito, puede haber retrasos en los tiempos de carga ajenos a la aplicación.**
 
 ## Uso
 
