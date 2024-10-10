@@ -82,6 +82,11 @@ const Catalog = () => {
       return matchesSearch && matchesFilters && matchesTypes // Devuelve verdadero si coincide con todos los criterios
     })
 
+    // Cambia a la primera página si se aplican filtros o se realiza una búsqueda
+    if (searchTerm || selectedTypes.length > 0) {
+      setPage(1);
+    }
+
     // Actualiza el estado con los Pokémon filtrados
     setDisplayedPokemons(filteredPokemons.slice((page - 1) * pokemonsPerPage, page * pokemonsPerPage))
     setTotalPokemons(filteredPokemons.length) // Actualiza el total de Pokémon
